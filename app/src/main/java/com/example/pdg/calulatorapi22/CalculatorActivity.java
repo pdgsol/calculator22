@@ -1,5 +1,6 @@
 package com.example.pdg.calulatorapi22;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -68,10 +69,10 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View view) {
                 Double resultado = parseContent(content);
-                Toast.makeText(getApplicationContext(),"Calculando...",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"Calculando...",Toast.LENGTH_SHORT).show();
                 screen.setText(String.valueOf(resultado));
+                throwToastNotification(content);
             }
-
         });
 
         registerForContextMenu(keyEqual);
@@ -146,6 +147,14 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         String numToCall = "tel:" + screen.getText().toString();
         Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(numToCall) );
         startActivity(i);
+    }
+
+    private void throwToastNotification(String notificationMessage)
+    {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, notificationMessage, duration);
+        toast.show();
     }
 
 }
