@@ -48,7 +48,6 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         screen = (TextView) findViewById(R.id.screen);
         screen.setText(content);
 
-        //dummy commit
         
         keyOne.setOnClickListener(this);
         keyTwo.setOnClickListener(this);
