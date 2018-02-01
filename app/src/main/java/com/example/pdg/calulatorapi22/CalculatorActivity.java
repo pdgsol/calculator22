@@ -103,7 +103,7 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
 
     double parseContent(String content) {
 
-        return 42.00;
+        return 42.0;
     }
 
     @Override
