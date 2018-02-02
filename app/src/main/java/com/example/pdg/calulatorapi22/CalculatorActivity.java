@@ -25,6 +25,7 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
     String content = "";
     TextView screen;
     String lastResult = "";
+    boolean startNewScreen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         Button keyDot = (Button) findViewById(R.id.keyDot);
         Button keyZero = (Button) findViewById(R.id.keyZero);
         Button keyCE = (Button) findViewById(R.id.keyCE);
+        Button keySave = (Button) findViewById(R.id.keySave);
+        Button keyRestore = (Button) findViewById(R.id.keyRestore);
 
 
         screen = (TextView) findViewById(R.id.screen);
@@ -71,10 +74,9 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         keyZero.setOnClickListener(this);
         keyDiv.setOnClickListener(this);
         keyCE.setOnClickListener(this);
+        keySave.setOnClickListener(this);
+        keyRestore.setOnClickListener(this);
 
-
-        SharedPreferences sharedPref = getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
 
         keyEqual.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +111,30 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         });
 
 
+        keySave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                content = screen.getText().toString();
+                throwToastNotification("Save screen value");
+                SharedPreferences sharedPref = getSharedPreferences(
+                        getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.preference_file_key), content);
+                editor.apply();
+            }
+        });
+
+        keyRestore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                throwToastNotification("Restore screen value saved");
+                SharedPreferences sharedPref = getSharedPreferences(
+                        getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                content = sharedPref.getString(getString(R.string.preference_file_key), "");
+                screen.setText(content);
+
+            }
+        });
 
     }
 
@@ -116,8 +142,18 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         Button b = (Button) view;
         String buttonText = b.getText().toString();
-        content = content + buttonText;
+
+        if(startNewScreen && isDigit(buttonText.charAt(0)))
+        {
+            content = buttonText;
+        }
+        else
+        {
+            content = content + buttonText;
+        }
+
         screen.setText(content);
+        startNewScreen = false;
     }
 
     double parseContent(String content) {
@@ -133,6 +169,8 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
             screen.setText("");
             content = "";
         }
+
+        startNewScreen = true;
         Button b = (Button) view;
         String buttonText = b.getText().toString();
         content = content + buttonText;
@@ -146,8 +184,6 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
     {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.simple_menu, menu);
-        //menu.setHeaderTitle("Select The Action");
-        //menu.add(0, v.getId(), 0, "call");//groupId, itemId, order, title
     }
 
     @Override
@@ -174,6 +210,51 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, notificationMessage, duration);
         toast.show();
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        screen.setText(sharedPref.getString(getString(R.string.preference_file_key), ""));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.preference_file_key), screen.getText().toString());
+        editor.apply();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("screenContent", screen.getText().toString() );
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle inState)
+    {
+        super.onRestoreInstanceState(inState);
+        screen.setText(inState.getString("screenContent"));
+    }
+
+    boolean isDigit(char value)
+    {
+        boolean isDigit = false;
+        if(value >= '0' && value <= '9')
+        {
+            isDigit = true;
+        }
+
+        return isDigit;
     }
 
 }

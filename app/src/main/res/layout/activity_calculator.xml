@@ -227,22 +227,22 @@
         android:textSize="30sp">
 
         <Button
-            android:id="@+id/keyNA2"
+            android:id="@+id/keySave"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@android:color/background_dark"
-            android:text="NA"
+            android:text="Save"
             android:textColor="@android:color/background_light"
             android:textSize="30sp" />
 
         <Button
-            android:id="@+id/keyNA"
+            android:id="@+id/keyRestore"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@android:color/holo_blue_dark"
-            android:text="NA"
+            android:text="Rest"
             android:textColor="@android:color/background_light"
             android:textSize="30sp" />
 
