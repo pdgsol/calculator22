@@ -197,6 +197,56 @@
             android:textSize="30sp" />
 
         <Button
+            android:id="@+id/keyCE"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/background_dark"
+            android:text="CE"
+            android:textColor="@android:color/background_light"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/keyDiv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/background_dark"
+            android:text="/"
+            android:textColor="@android:color/background_light"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:orientation="horizontal"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp">
+
+        <Button
+            android:id="@+id/keyNA2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/background_dark"
+            android:text="NA"
+            android:textColor="@android:color/background_light"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/keyNA"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:text="NA"
+            android:textColor="@android:color/background_light"
+            android:textSize="30sp" />
+
+        <Button
             android:id="@+id/keyDot"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -217,5 +267,7 @@
             android:textSize="30sp" />
 
     </LinearLayout>
+
+
 
 </LinearLayout>

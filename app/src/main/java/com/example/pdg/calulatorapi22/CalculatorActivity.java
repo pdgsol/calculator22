@@ -2,6 +2,7 @@ package com.example.pdg.calulatorapi22;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,22 +13,23 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.design.widget.Snackbar;
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
 
 
 
 public class CalculatorActivity  extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
+    //private CoordinatorLayout coordinatorLayout;
     String content = "";
     TextView screen;
-    ListView listView1;
+    String lastResult = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
-
-
-
 
         Button keyOne = (Button) findViewById(R.id.keyOne);
         Button keyTwo = (Button) findViewById(R.id.keyTwo);
@@ -43,8 +45,11 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         Button keyANS = (Button) findViewById(R.id.keyANS);
         Button keyMul = (Button) findViewById(R.id.keyMul);
         Button keyEqual = (Button) findViewById(R.id.keyEqual);
+        Button keyDiv = (Button) findViewById(R.id.keyDiv);
         Button keyDot = (Button) findViewById(R.id.keyDot);
         Button keyZero = (Button) findViewById(R.id.keyZero);
+        Button keyCE = (Button) findViewById(R.id.keyCE);
+
 
         screen = (TextView) findViewById(R.id.screen);
         screen.setText(content);
@@ -64,6 +69,13 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         keyMul.setOnClickListener(this);
         keyDot.setOnClickListener(this);
         keyZero.setOnClickListener(this);
+        keyDiv.setOnClickListener(this);
+        keyCE.setOnClickListener(this);
+
+
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
 
         keyEqual.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +84,15 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
                 //Toast.makeText(getApplicationContext(),"Calculando...",Toast.LENGTH_SHORT).show();
                 screen.setText(String.valueOf(resultado));
                 throwToastNotification(content);
+                lastResult = content;
+            }
+        });
+
+        keyCE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                screen.setText("");
+                content = "";
             }
         });
 
@@ -93,10 +114,6 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view) {
-        if (screen.getText().toString().equals("42.0")) {
-            screen.setText("");
-            content = "";
-        }
         Button b = (Button) view;
         String buttonText = b.getText().toString();
         content = content + buttonText;
@@ -105,7 +122,9 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
 
     double parseContent(String content) {
 
-        return 42.0;
+        // Create an Expression (A class from exp4j library)
+        Expression expression = new ExpressionBuilder(content).build();
+        return expression.evaluate();
     }
 
     @Override
