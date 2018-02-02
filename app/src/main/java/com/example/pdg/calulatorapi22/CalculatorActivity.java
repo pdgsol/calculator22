@@ -87,6 +87,7 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
                 screen.setText(String.valueOf(resultado));
                 throwToastNotification(content);
                 lastResult = content;
+                startNewScreen = true;
             }
         });
 
@@ -142,13 +143,14 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         Button b = (Button) view;
         String buttonText = b.getText().toString();
-
-        if(startNewScreen && isDigit(buttonText.charAt(0)))
-        {
+        content = screen.getText().toString();
+        content.length();
+        if(startNewScreen && isDigit(buttonText.charAt(0))) {
             content = buttonText;
         }
-        else
-        {
+        else if(isOperator(buttonText.charAt(0)) && isOperator(buttonText.charAt(0))) {
+
+        }else {
             content = content + buttonText;
         }
 
@@ -170,7 +172,7 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
             content = "";
         }
 
-        startNewScreen = true;
+
         Button b = (Button) view;
         String buttonText = b.getText().toString();
         content = content + buttonText;
@@ -217,20 +219,20 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
     protected void onStart() {
         super.onStart();
 
-        SharedPreferences sharedPref = getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        screen.setText(sharedPref.getString(getString(R.string.preference_file_key), ""));
+        //SharedPreferences sharedPref = getSharedPreferences(
+        //      getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        //screen.setText(sharedPref.getString(getString(R.string.preference_file_key), ""));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        SharedPreferences sharedPref = getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(getString(R.string.preference_file_key), screen.getText().toString());
-        editor.apply();
+        //SharedPreferences sharedPref = getSharedPreferences(
+                //      getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = sharedPref.edit();
+        //editor.putString(getString(R.string.preference_file_key), screen.getText().toString());
+        //editor.apply();
     }
 
     @Override
@@ -255,6 +257,17 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         }
 
         return isDigit;
+    }
+
+    boolean isOperator(char value)
+    {
+        boolean isOperator = false;
+        if(value == '+' || value == '-' || value == '/' || value == '*')
+        {
+            isOperator = true;
+        }
+
+        return isOperator;
     }
 
 }
