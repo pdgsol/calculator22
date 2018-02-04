@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.example.pdg.calulatorapi22.MainActivity">
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="168dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/startCalc"
+        android:layout_width="447dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/background_dark"
+        android:text="Calculator"
+        android:textColor="@android:color/background_light" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/startGame"
+        android:layout_width="410dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:backgroundTint="@android:color/background_dark"
+        android:text="Game"
+        android:textColor="@android:color/background_light" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="168dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -149,7 +149,12 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
             content = buttonText;
         }
         else if(isOperator(buttonText.charAt(0)) && isOperator(buttonText.charAt(0))) {
-
+            if(isOperator(content.charAt(content.length()-1)))
+            {
+                content = content.replace(content.charAt(content.length()-1),buttonText.charAt(0));
+            } else {
+                content = content + buttonText;
+            }
         }else {
             content = content + buttonText;
         }
@@ -171,8 +176,7 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
             screen.setText("");
             content = "";
         }
-
-
+        
         Button b = (Button) view;
         String buttonText = b.getText().toString();
         content = content + buttonText;
@@ -262,7 +266,7 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
     boolean isOperator(char value)
     {
         boolean isOperator = false;
-        if(value == '+' || value == '-' || value == '/' || value == '*')
+        if(value == '+' || value == '-' || value == '/' || value == '*' || value == '.')
         {
             isOperator = true;
         }
