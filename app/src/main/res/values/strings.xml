@@ -3,4 +3,7 @@
     <string name="preference_file_key">calculatorScreenValue</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_game">Game</string>
+
+    <string name="calculationError">Exception throwed during the calculation</string>
+    <string name="error">Error</string>
 </resources>

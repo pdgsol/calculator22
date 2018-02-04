@@ -82,12 +82,21 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         keyEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Double resultado = parseContent(content);
+                Double resultado = null;
+                try {
+                    resultado = parseContent(content);
+                    screen.setText(String.valueOf(resultado));
+                    throwToastNotification(content);
+                    lastResult = content;
+                    startNewScreen = true;
+                } catch (Exception e) {
+                    throwToastNotification(getString(R.string.calculationError));
+                    content = getString(R.string.error);
+                    startNewScreen = true;
+                    e.printStackTrace();
+                }
                 //Toast.makeText(getApplicationContext(),"Calculando...",Toast.LENGTH_SHORT).show();
-                screen.setText(String.valueOf(resultado));
-                throwToastNotification(content);
-                lastResult = content;
-                startNewScreen = true;
+
             }
         });
 
@@ -176,7 +185,7 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
             screen.setText("");
             content = "";
         }
-        
+
         Button b = (Button) view;
         String buttonText = b.getText().toString();
         content = content + buttonText;
