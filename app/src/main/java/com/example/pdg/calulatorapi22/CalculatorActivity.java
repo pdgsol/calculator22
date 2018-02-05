@@ -95,8 +95,6 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
                     startNewScreen = true;
                     e.printStackTrace();
                 }
-                //Toast.makeText(getApplicationContext(),"Calculando...",Toast.LENGTH_SHORT).show();
-
             }
         });
 
