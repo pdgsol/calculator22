@@ -140,7 +140,6 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
                         getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                 content = sharedPref.getString(getString(R.string.preference_file_key), "");
                 screen.setText(content);
-
             }
         });
 
