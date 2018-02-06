@@ -57,13 +57,23 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
 
     boolean checkFlippedCards()
     {
-        int imageId = 0;
-        for(int i = 0; i < flippedCardsList.size(); ++i) {
-            ImageView card = (ImageView) findViewById(flippedCardsList.get(i));
-            card.setImageResource(R.drawable.cardbacksmall);
+        boolean flippedCardsMatch = false;
+
+        if(!flippedCardsList.isEmpty()) {
+            int imageId_1 = 0;
+            int imageId_2 = 0;
+            ImageView card = (ImageView) findViewById(flippedCardsList.get(0));
+            int i = 1;
+            while (i < flippedCardsList.size()){
+                card = (ImageView) findViewById(flippedCardsList.get(i));
+                imageId_2 = ((Integer) card.getTag()).intValue();
+
+                ++i;
+            }
+
         }
 
-        return true;
+        return flippedCardsMatch;
     }
 
     private void hideFlippedCards()
