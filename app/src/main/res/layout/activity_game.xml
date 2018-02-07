@@ -7,11 +7,19 @@
         android:orientation="vertical"
         tools:context="com.example.pdg.calulatorapi22.Game">
 
-        <TextView
+        <Button
+            android:id="@+id/restartGame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="10"
-            android:text="MEMORY" />
+            android:layout_weight="9"
+            android:text="Restart Game" />
+
+    <TextView
+        android:id="@+id/scoreScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        android:text="Score : 0" />
 
         <GridLayout
             android:layout_width="wrap_content"
