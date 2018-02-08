@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button startCalc = (Button) findViewById(R.id.startCalc);
         Button startGame = (Button) findViewById(R.id.startGame);
+        Button rankingGame = (Button) findViewById(R.id.rankingGame);
 
         startCalc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), Game.class);
+                startActivity(intent);
+            }
+        });
+
+        rankingGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), Ranking.class);
                 startActivity(intent);
             }
         });

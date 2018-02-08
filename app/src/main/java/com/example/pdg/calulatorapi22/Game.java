@@ -1,14 +1,15 @@
 package com.example.pdg.calulatorapi22;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.InputType;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,32 +19,63 @@ import java.util.List;
 public class Game extends AppCompatActivity implements View.OnClickListener{
 
     boolean gameOngoing = true;
-    Integer numFlippedCards = 0;
+    Integer numFlippedCardsInTurn = 0;
     Integer maxNumFlippedCards = 2;
     Integer waitSecsToFlipCard = 2;
     int incScore = 10;
     int decScore = -5;
     Integer score = 0;
     int numCards = 4;
+    String m_Text = "";
+    int nullId = 0xFFFF;
 
     List<Integer> flippedCardsList = new ArrayList<Integer>();
+
+    List<Pair<Integer, ImageView>> imageViewList = new ArrayList<Pair<Integer, ImageView>>();
+
+    private void setUpImageViews()
+    {
+        addViewImageList(R.drawable.images, R.id.card11);
+        addViewImageList(R.drawable.images, R.id.card12);
+        addViewImageList(R.drawable.images, R.id.card21);
+        addViewImageList(R.drawable.images, R.id.card22);
+
+        for(int i = 0; i < imageViewList.size(); ++i)
+        {
+            imageViewList.get(i).second.setOnClickListener(this);
+        }
+
+    }
+
+    private void addViewImageList(int imageId, int imageViewId)
+    {
+        imageViewList.add(Pair.create(imageId, (ImageView) findViewById(imageViewId)));
+    }
+
+    private int getDrawableIdFromImageViewId(int imageViewId)
+    {
+        int drawableId = nullId;
+        ImageView imageView;
+        for(int i = 0; i < imageViewList.size(); ++i)
+        {
+            if( imageViewList.get(i).second.getId() == imageViewId )
+            {
+                drawableId = imageViewList.get(i).first;
+                break;
+            }
+        }
+
+        return drawableId;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        ImageView card11 = (ImageView) findViewById(R.id.card11);
-        ImageView card12 = (ImageView) findViewById(R.id.card12);
-        ImageView card21 = (ImageView) findViewById(R.id.card21);
-        ImageView card22 = (ImageView) findViewById(R.id.card22);
 
-        card11.setOnClickListener(this);
-        card12.setOnClickListener(this);
-        card21.setOnClickListener(this);
-        card22.setOnClickListener(this);
+        setUpImageViews();
 
         Button checkResult = (Button) findViewById(R.id.restartGame);
-
         checkResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,12 +90,12 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
         //Log.i("GameActivity",  "onClick");
         if (gameOngoing  && !alreadyFlipped(view)) {
             ImageView imageView = (ImageView) view;
-            imageView.setImageResource(R.drawable.images);
+            imageView.setImageResource(getDrawableIdFromImageViewId(view.getId()));
 
-            ++numFlippedCards;
+            ++numFlippedCardsInTurn;
             flippedCardsList.add((Integer) imageView.getId());
 
-            if (numFlippedCards == maxNumFlippedCards) {
+            if (numFlippedCardsInTurn == maxNumFlippedCards) {
                 gameOngoing = false;
 
                 if(checkFlippedCards()) {
@@ -73,6 +105,8 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
                     BackgroundCount bc = new BackgroundCount();
                     bc.execute(waitSecsToFlipCard);
                 }
+
+                numFlippedCardsInTurn = 0;
             }
         }
 
@@ -88,21 +122,15 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
 
     private boolean checkFlippedCards()
     {
-        boolean flippedCardsMatch = true;
+        boolean flippedCardsMatch= true;
 
         if(!flippedCardsList.isEmpty()) {
-            int imageId_1 = 0; //TODO
+            int imageId_1 = getDrawableIdFromImageViewId(flippedCardsList.get(0));
             int imageId_2 = 0;
-            ImageView card = (ImageView) findViewById(flippedCardsList.get(0));
-            int i = 1;
-            while (i < flippedCardsList.size() && flippedCardsMatch){
-                card = (ImageView) findViewById(flippedCardsList.get(i));
-                //TODO imageId_2 = ((Integer) card.getTag()).intValue();
-
+            for (int i = 1; i < flippedCardsList.size() && flippedCardsMatch; ++i){
+                imageId_2 = getDrawableIdFromImageViewId(flippedCardsList.get(i));
                 if( imageId_1 != imageId_2) {
                     flippedCardsMatch = false;
-                } else {
-                    ++i;
                 }
             }
         }
@@ -118,7 +146,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
         }
 
         gameOngoing = false;
-        numFlippedCards = 0;
+        numFlippedCardsInTurn = 0;
         flippedCardsList.clear();
     }
 
@@ -146,6 +174,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
             super.onPostExecute(integer);
             updateScore(decScore);
             hideFlippedCards();
+            gameOngoing = true;
         }
 
         @Override
@@ -170,7 +199,34 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
     private void finishGame() {
         TextView textView = (TextView) findViewById(R.id.scoreScreen);
         textView.setText("Final Score : " + score.toString());
+        showDialog();
     }
 
+    private void showDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
 
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                m_Text = input.getText().toString();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
 }
