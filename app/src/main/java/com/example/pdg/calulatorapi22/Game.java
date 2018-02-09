@@ -1,6 +1,8 @@
 package com.example.pdg.calulatorapi22;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -29,16 +31,33 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
     String m_Text = "";
     int nullId = 0xFFFF;
 
+    List<Integer> listDrawableId = new ArrayList<Integer>();
     List<Integer> flippedCardsList = new ArrayList<Integer>();
 
     List<Pair<Integer, ImageView>> imageViewList = new ArrayList<Pair<Integer, ImageView>>();
 
-    private void setUpImageViews()
+    private List<Integer> generateRandomCardDistribution(int numCards)
     {
-        addViewImageList(R.drawable.images, R.id.card11);
-        addViewImageList(R.drawable.images, R.id.card12);
-        addViewImageList(R.drawable.images, R.id.card21);
-        addViewImageList(R.drawable.images, R.id.card22);
+        List<Integer> randomCombination = new ArrayList<Integer>();
+        randomCombination.add(listDrawableId.get(0));
+        randomCombination.add(listDrawableId.get(1));
+        randomCombination.add(listDrawableId.get(0));
+        randomCombination.add(listDrawableId.get(1));
+
+        return randomCombination;
+    }
+
+    private void setUpGame()
+    {
+        //Adding cards available
+        listDrawableId.add(R.drawable.ic_face_black_24dp);
+        listDrawableId.add(R.drawable.ic_grade_black_24dp);
+        List<Integer> randomCombination = generateRandomCardDistribution(4);
+
+        addViewImageList(randomCombination.get(0), R.id.card11);
+        addViewImageList(randomCombination.get(1), R.id.card12);
+        addViewImageList(randomCombination.get(2), R.id.card21);
+        addViewImageList(randomCombination.get(3), R.id.card22);
 
         for(int i = 0; i < imageViewList.size(); ++i)
         {
@@ -73,7 +92,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        setUpImageViews();
+        setUpGame();
 
         Button checkResult = (Button) findViewById(R.id.restartGame);
         checkResult.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +130,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
         }
 
         if(flippedCardsList.size() == numCards) {
-            finishGame();
+            finishGame(view);
         }
     }
 
@@ -196,10 +215,12 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    private void finishGame() {
+    private void finishGame(View view) {
         TextView textView = (TextView) findViewById(R.id.scoreScreen);
         textView.setText("Final Score : " + score.toString());
         showDialog();
+        //Intent intent = new Intent(view.getContext(), Ranking.class);
+        //startActivity(intent);
     }
 
     private void showDialog()
