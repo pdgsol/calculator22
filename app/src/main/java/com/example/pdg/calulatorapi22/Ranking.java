@@ -4,23 +4,26 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.pdg.calulatorapi22.database.Ranking_DataController;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Ranking extends AppCompatActivity {
 
-    private List<Player> contactos;
+    private List<Player> players;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private mAdapter contactsAdapter;
+    private mAdapter playerAdapter;
+    private Ranking_DataController ranking_DataController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
         setupRecyclerView();
-        loadContactos();
-
+        loadRanking();
     }
 
     void setupRecyclerView()
@@ -28,21 +31,32 @@ public class Ranking extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        contactsAdapter = initAdapter();
-        recyclerView.setAdapter(contactsAdapter);
+        playerAdapter = initAdapter();
+        recyclerView.setAdapter(playerAdapter);
     }
 
     private mAdapter initAdapter() {
-        return new mAdapter(this, loadContactos());
+        return new mAdapter(this, loadRanking());
     }
-    List<Player> loadContactos() {
-        contactos = new ArrayList<Player>();
+    List<Player> loadRanking() {
 
-        contactos.add(new Player(0, "2222222", "Alvaro"));
-        contactos.add(new Player(1, "4444222", "Rolvaro"));
-        contactos.add(new Player(0, "2111222", "Varoal"));
 
-        return contactos;
+
+        final Ranking_DataController ranking_DataController = new Ranking_DataController(this);
+        String[][] result = ranking_DataController.getRanking();
+
+        players = new ArrayList<Player>();
+
+        for(int i = 0; i < result.length; ++i)
+        {
+            players.add(new Player(i%1, result[i][1], result[i][0]));
+        }
+
+//        players.add(new Player(0, "2222222", "Alvaro"));
+//        players.add(new Player(1, "4444222", "Rolvaro"));
+//        players.add(new Player(0, "2111222", "Varoal"));
+
+        return players;
     }
 
 }

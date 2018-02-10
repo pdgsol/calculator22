@@ -50,8 +50,8 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
     private void setUpGame()
     {
         //Adding cards available
-        listDrawableId.add(R.drawable.ic_face_black_24dp);
-        listDrawableId.add(R.drawable.ic_grade_black_24dp);
+        listDrawableId.add(R.drawable.corpetit);
+        listDrawableId.add(R.drawable.ozaru);
         List<Integer> randomCombination = generateRandomCardDistribution(4);
 
         addViewImageList(randomCombination.get(0), R.id.card11);
