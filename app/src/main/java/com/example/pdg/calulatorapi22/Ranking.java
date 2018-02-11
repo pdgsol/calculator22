@@ -3,6 +3,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.example.pdg.calulatorapi22.database.Ranking_DataController;
 
@@ -33,14 +39,14 @@ public class Ranking extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         playerAdapter = initAdapter();
         recyclerView.setAdapter(playerAdapter);
+
+
     }
 
     private mAdapter initAdapter() {
         return new mAdapter(this, loadRanking());
     }
     List<Player> loadRanking() {
-
-
 
         final Ranking_DataController ranking_DataController = new Ranking_DataController(this);
         String[][] result = ranking_DataController.getRanking();
@@ -52,11 +58,25 @@ public class Ranking extends AppCompatActivity {
             players.add(new Player(i%1, result[i][1], result[i][0]));
         }
 
-//        players.add(new Player(0, "2222222", "Alvaro"));
-//        players.add(new Player(1, "4444222", "Rolvaro"));
-//        players.add(new Player(0, "2111222", "Varoal"));
-
         return players;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.simple_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        switch (item.getItemId())
+        {
+            case R.id.call:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

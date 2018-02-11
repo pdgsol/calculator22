@@ -1,6 +1,8 @@
 package com.example.pdg.calulatorapi22;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -13,33 +15,38 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.pdg.calulatorapi22.database.Ranking_DataController;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends AppCompatActivity implements View.OnClickListener{
 
-    boolean gameOngoing = true;
-    Integer numFlippedCardsInTurn = 0;
+    boolean gameOngoing = false;
     Integer maxNumFlippedCards = 2;
     Integer waitSecsToFlipCard = 2;
     int incScore = 10;
     int decScore = -5;
     Integer score = 0;
-    int totalNumCardsInGame = 12;
-    String m_Text = "";
+    Activity gameActivity;
 
-    CardGame cardGame = new CardGame();
-    List<Integer> gameFlippedCardsList = new ArrayList<Integer>();
-    List<Integer> turnFlippedCardsList = new ArrayList<Integer>();
+    CardGame cardGame;
+    List<Integer> gameFlippedCardsList;
+    List<Integer> turnFlippedCardsList;
 
     private void setUpGame()
     {
+        gameFlippedCardsList = new ArrayList<>();
+        turnFlippedCardsList = new ArrayList<>();
+        cardGame = new CardGame();
         cardGame.buildCardGame();
         List<Pair<Integer, Integer>> imageViewList = cardGame.getCardGameList();
         for(int i = 0; i < imageViewList.size(); ++i)
         {
             findViewById(imageViewList.get(i).second).setOnClickListener(this);
         }
+
+        gameOngoing = true;
     }
 
     @Override
@@ -47,9 +54,10 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        gameActivity = this;
         setUpGame();
 
-        Button checkResult = (Button) findViewById(R.id.restartGame);
+        Button checkResult = findViewById(R.id.restartGame);
         checkResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +73,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
             ImageView imageView = (ImageView) view;
             imageView.setImageResource(cardGame.getDrawableIdFromImageViewId(imageView.getId()));
 
-            turnFlippedCardsList.add((Integer) imageView.getId());
+            turnFlippedCardsList.add(imageView.getId());
 
             if (turnFlippedCardsList.size() == maxNumFlippedCards) {
                 gameOngoing = false;
@@ -82,28 +90,32 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
             }
         }
 
-        if(gameFlippedCardsList.size() == totalNumCardsInGame) {
+//        if(gameFlippedCardsList.size() == totalNumCardsInGame) {
             finishGame();
-        }
+//        }
     }
 
     private boolean alreadyFlipped(int imageViewId) {
         return gameFlippedCardsList.contains(imageViewId) || turnFlippedCardsList.contains(imageViewId);
     }
 
-    private void hideFlippedCards()
+    private void hideCardsInList(List<Integer> cardsList)
     {
-        for(int i = 0; i < turnFlippedCardsList.size(); ++i) {
-            ImageView card = (ImageView) findViewById(turnFlippedCardsList.get(i));
+        for(int i = 0; i < cardsList.size(); ++i) {
+            ImageView card = findViewById(cardsList.get(i));
             card.setImageResource(R.drawable.cardback);
         }
+    }
 
+    private void hideFlippedCards()
+    {
+        hideCardsInList(turnFlippedCardsList);
         gameOngoing = false;
         turnFlippedCardsList.clear();
     }
 
     private void updateScore(int incrementScore){
-        TextView textView = (TextView) findViewById(R.id.scoreScreen);
+        TextView textView = findViewById(R.id.scoreScreen);
         score +=incrementScore;
         textView.setText("Score : " + score.toString());
     }
@@ -111,10 +123,12 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
     private void restartGame()
     {
         score = 0;
-        TextView textView = (TextView) findViewById(R.id.scoreScreen);
+        TextView textView = findViewById(R.id.scoreScreen);
         textView.setText("Score : " + score.toString());
         hideFlippedCards();
-        gameOngoing = true;
+        hideCardsInList(gameFlippedCardsList);
+        gameFlippedCardsList.clear();
+        setUpGame();
     }
 
     private class BackgroundCount extends AsyncTask<Integer, String, Integer>{
@@ -161,17 +175,21 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Title");
 
+        final Ranking_DataController  rankingDataController = new Ranking_DataController(this);
         // Set up the input
         final EditText input = new EditText(this);
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        input.setInputType(InputType.TYPE_CLASS_TEXT); // | InputType.TrankingDataControllerYPE_TEXT_VARIATION_PASSWORD);
         builder.setView(input);
 
         // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                m_Text = input.getText().toString();
+                String userName = input.getText().toString();
+                rankingDataController.newPlayerRanking(userName, "1000", score );
+                Intent intent = new Intent(gameActivity, Ranking.class);
+                gameActivity.startActivity(intent);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

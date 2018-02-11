@@ -35,6 +35,7 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.AdapterViewHolder> {
     @Override
     public void onBindViewHolder(AdapterViewHolder holder, int position) {
         Player contacto = playerList.get(position);
+
         int icon = contacto.getIcon();
         switch (icon) {
             case 0:
@@ -71,4 +72,6 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.AdapterViewHolder> {
             this.score = itemView.findViewById(R.id.phoneContact);
         }
     }
+
+
 }
