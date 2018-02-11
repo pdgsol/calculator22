@@ -27,7 +27,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
     int incScore = 10;
     int decScore = -5;
     Integer score = 0;
-    int numCards = 4;
+    int numCards = 9;
     String m_Text = "";
     int nullId = 0xFFFF;
 
@@ -41,8 +41,17 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
         List<Integer> randomCombination = new ArrayList<Integer>();
         randomCombination.add(listDrawableId.get(0));
         randomCombination.add(listDrawableId.get(1));
+        randomCombination.add(listDrawableId.get(2));
+        randomCombination.add(listDrawableId.get(3));
+        randomCombination.add(listDrawableId.get(4));
+        randomCombination.add(listDrawableId.get(5));
+        randomCombination.add(listDrawableId.get(6));
+        randomCombination.add(listDrawableId.get(7));
+        randomCombination.add(listDrawableId.get(8));
+        randomCombination.add(listDrawableId.get(9));
+        randomCombination.add(listDrawableId.get(10));
+        randomCombination.add(listDrawableId.get(10));
         randomCombination.add(listDrawableId.get(0));
-        randomCombination.add(listDrawableId.get(1));
 
         return randomCombination;
     }
@@ -52,12 +61,30 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
         //Adding cards available
         listDrawableId.add(R.drawable.corpetit);
         listDrawableId.add(R.drawable.ozaru);
-        List<Integer> randomCombination = generateRandomCardDistribution(4);
+        listDrawableId.add(R.drawable.freezer1);
+        listDrawableId.add(R.drawable.gohan);
+        listDrawableId.add(R.drawable.ginyu);
+        listDrawableId.add(R.drawable.gokusuperguerrer2);
+        listDrawableId.add(R.drawable.jeice);
+        listDrawableId.add(R.drawable.nappa);
+        listDrawableId.add(R.drawable.trunks);
+        listDrawableId.add(R.drawable.vegeta1);
+        listDrawableId.add(R.drawable.vegetasuperguerrer);
+
+        List<Integer> randomCombination = generateRandomCardDistribution(numCards);
 
         addViewImageList(randomCombination.get(0), R.id.card11);
         addViewImageList(randomCombination.get(1), R.id.card12);
-        addViewImageList(randomCombination.get(2), R.id.card21);
-        addViewImageList(randomCombination.get(3), R.id.card22);
+        addViewImageList(randomCombination.get(2), R.id.card13);
+        addViewImageList(randomCombination.get(2), R.id.card14);
+        addViewImageList(randomCombination.get(3), R.id.card21);
+        addViewImageList(randomCombination.get(4), R.id.card22);
+        addViewImageList(randomCombination.get(5), R.id.card23);
+        addViewImageList(randomCombination.get(5), R.id.card24);
+        addViewImageList(randomCombination.get(6), R.id.card31);
+        addViewImageList(randomCombination.get(7), R.id.card32);
+        addViewImageList(randomCombination.get(7), R.id.card33);
+        addViewImageList(randomCombination.get(7), R.id.card34);
 
         for(int i = 0; i < imageViewList.size(); ++i)
         {
@@ -161,7 +188,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
     {
         for(int i = 0; i < flippedCardsList.size(); ++i) {
             ImageView card = (ImageView) findViewById(flippedCardsList.get(i));
-            card.setImageResource(R.drawable.cardbacksmall);
+            card.setImageResource(R.drawable.cardback);
         }
 
         gameOngoing = false;
