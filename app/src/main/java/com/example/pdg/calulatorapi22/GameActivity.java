@@ -20,7 +20,7 @@ import com.example.pdg.calulatorapi22.database.Ranking_DataController;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game extends AppCompatActivity implements View.OnClickListener{
+public class GameActivity extends AppCompatActivity implements View.OnClickListener{
 
     boolean gameOngoing = false;
     Integer maxNumFlippedCards = 2;
@@ -90,9 +90,9 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
             }
         }
 
-//        if(gameFlippedCardsList.size() == totalNumCardsInGame) {
+       if(gameFlippedCardsList.size() == cardGame.getNumCards()) {
             finishGame();
-//        }
+        }
     }
 
     private boolean alreadyFlipped(int imageViewId) {
@@ -165,40 +165,12 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
     private void finishGame() {
         TextView textView = (TextView) findViewById(R.id.scoreScreen);
         textView.setText("Final Score : " + score.toString());
-        showDialog();
-        //Intent intent = new Intent(view.getContext(), Ranking.class);
-        //startActivity(intent);
-    }
-
-    private void showDialog()
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
-
+        String userName = "User";
         final Ranking_DataController  rankingDataController = new Ranking_DataController(this);
-        // Set up the input
-        final EditText input = new EditText(this);
+        rankingDataController.newPlayerRanking(userName, "1000", score );
+        Intent intent = new Intent(gameActivity, RankingActivity.class);
+        gameActivity.startActivity(intent);
 
-        input.setInputType(InputType.TYPE_CLASS_TEXT); // | InputType.TrankingDataControllerYPE_TEXT_VARIATION_PASSWORD);
-        builder.setView(input);
-
-        // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String userName = input.getText().toString();
-                rankingDataController.newPlayerRanking(userName, "1000", score );
-                Intent intent = new Intent(gameActivity, Ranking.class);
-                gameActivity.startActivity(intent);
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
     }
+    
 }

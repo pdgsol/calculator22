@@ -15,7 +15,7 @@ import com.example.pdg.calulatorapi22.database.Ranking_DataController;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ranking extends AppCompatActivity {
+public class RankingActivity extends AppCompatActivity {
 
     private List<Player> players;
     private RecyclerView recyclerView;

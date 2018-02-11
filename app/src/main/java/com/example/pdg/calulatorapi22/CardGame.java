@@ -13,12 +13,21 @@ import java.util.List;
 
 public class CardGame {
 
+
     private int numCards = 12;
     private int nullId = 0xFFFF;
     private List<Integer> listDrawableId = new ArrayList<Integer>();
     private List<Pair<Integer, Integer>> imageViewList = new ArrayList<Pair<Integer, Integer>>();
 
     public CardGame() {
+    }
+
+    public int getNumCards() {
+        return numCards;
+    }
+
+    public void setNumCards(int numCards) {
+        this.numCards = numCards;
     }
 
     private void buildDrawableIdsArray()

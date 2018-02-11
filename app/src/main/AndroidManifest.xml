@@ -24,11 +24,11 @@
             android:label="@string/title_activity_game"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".Game"
+            android:name=".GameActivity"
             android:label="@string/title_activity_game"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".Ranking"
+            android:name=".RankingActivity"
             android:label="@string/title_activity_ranking"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), Game.class);
+                Intent intent = new Intent(view.getContext(), GameActivity.class);
                 startActivity(intent);
             }
         });
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         rankingGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), Ranking.class);
+                Intent intent = new Intent(view.getContext(), RankingActivity.class);
                 startActivity(intent);
             }
         });
