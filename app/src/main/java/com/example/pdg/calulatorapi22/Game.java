@@ -36,6 +36,21 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
 
     List<Pair<Integer, ImageView>> imageViewList = new ArrayList<Pair<Integer, ImageView>>();
 
+    private void buildDrawableIdsArray()
+    {
+        listDrawableId.add(R.drawable.corpetit);
+        listDrawableId.add(R.drawable.ozaru);
+        listDrawableId.add(R.drawable.freezer1);
+        listDrawableId.add(R.drawable.gohan);
+        listDrawableId.add(R.drawable.ginyu);
+        listDrawableId.add(R.drawable.gokusuperguerrer2);
+        listDrawableId.add(R.drawable.jeice);
+        listDrawableId.add(R.drawable.nappa);
+        listDrawableId.add(R.drawable.trunks);
+        listDrawableId.add(R.drawable.vegeta1);
+        listDrawableId.add(R.drawable.vegetasuperguerrer);
+    }
+
     private List<Integer> generateRandomCardDistribution(int numCards)
     {
         List<Integer> randomCombination = new ArrayList<Integer>();
@@ -58,18 +73,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
 
     private void setUpGame()
     {
-        //Adding cards available
-        listDrawableId.add(R.drawable.corpetit);
-        listDrawableId.add(R.drawable.ozaru);
-        listDrawableId.add(R.drawable.freezer1);
-        listDrawableId.add(R.drawable.gohan);
-        listDrawableId.add(R.drawable.ginyu);
-        listDrawableId.add(R.drawable.gokusuperguerrer2);
-        listDrawableId.add(R.drawable.jeice);
-        listDrawableId.add(R.drawable.nappa);
-        listDrawableId.add(R.drawable.trunks);
-        listDrawableId.add(R.drawable.vegeta1);
-        listDrawableId.add(R.drawable.vegetasuperguerrer);
+        buildDrawableIdsArray();
 
         List<Integer> randomCombination = generateRandomCardDistribution(numCards);
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="28dp"
+    android:padding="20dp"
     tools:context="com.example.pdg.calulatorapi22.Game">
 
 
@@ -21,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/cardback"
-            android:scaleType="centerInside"
             android:layout_weight="3"/>
 
         <ImageView
@@ -29,8 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/cardback"
-
-            android:scaleType="centerInside"
             android:layout_weight="3"/>
 
         <ImageView
@@ -38,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/cardback"
-            android:scaleType="centerInside"
             android:layout_weight="3"/>
 
         <ImageView
@@ -64,9 +60,7 @@
             android:id="@+id/card21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             app:srcCompat="@drawable/cardback"
-            android:scaleType="centerInside"
             android:layout_weight="3"/>
 
         <ImageView
@@ -74,8 +68,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/cardback"
-
-            android:scaleType="centerInside"
             android:layout_weight="3"/>
 
         <ImageView
@@ -83,7 +75,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/cardback"
-            android:scaleType="centerInside"
             android:layout_weight="3"/>
         <ImageView
             android:id="@+id/card24"
@@ -152,9 +143,6 @@
             android:layout_height="match_parent"
             android:layout_weight="9"
             android:text="Score : 0" />
-
-
-
     </LinearLayout>
 
 
