@@ -8,11 +8,13 @@ public class Player {
     private String name;
     private String score;
     private int icon;
+    private String time;
 
-    public Player(int icon, String score, String name) {
+    public Player(int icon, String score, String name, String time) {
         this.name = name;
         this.score = score;
         this.icon = icon;
+        this.time = time;
     }
 
     public String getName() {
@@ -39,5 +41,12 @@ public class Player {
         this.icon = icon;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }
 

@@ -55,7 +55,7 @@ public class Ranking extends AppCompatActivity {
 
         for(int i = 0; i < result.length; ++i)
         {
-            players.add(new Player(i%1, result[i][1], result[i][0]));
+            players.add(new Player(i%1, result[i][1], result[i][0], result[i][2]));
         }
 
         return players;

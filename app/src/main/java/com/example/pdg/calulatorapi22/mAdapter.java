@@ -34,22 +34,23 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.AdapterViewHolder> {
 
     @Override
     public void onBindViewHolder(AdapterViewHolder holder, int position) {
-        Player contacto = playerList.get(position);
+        Player player = playerList.get(position);
 
-        int icon = contacto.getIcon();
+        int icon = player.getIcon();
         switch (icon) {
             case 0:
-                holder.pic.setImageDrawable(holder.v.getResources().getDrawable(R.drawable.ic_face_black_24dp, null));
+                holder.pic.setImageDrawable(holder.view.getResources().getDrawable(R.drawable.ic_face_black_24dp, null));
                 break;
             case 1:
-                holder.pic.setImageDrawable(holder.v.getResources().getDrawable(R.drawable.ic_grade_black_24dp, null));
+                holder.pic.setImageDrawable(holder.view.getResources().getDrawable(R.drawable.ic_grade_black_24dp, null));
                 break;
             default:
                 break;
         }
 
-        holder.name.setText(contacto.getName());
-        holder.score.setText(contacto.getScore());
+        holder.name.setText(player.getName());
+        holder.score.setText(player.getScore());
+        holder.time.setText(player.getTime());
     }
 
     @Override
@@ -61,15 +62,17 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.AdapterViewHolder> {
     {
         public TextView name;
         public TextView score;
+        public TextView time;
         public ImageView pic;
-        public View v;
+        public View view;
 
         public AdapterViewHolder(View itemView) {
             super(itemView);
-            this.v = itemView;
-            this.pic = itemView.findViewById(R.id.imageContact);
-            this.name = itemView.findViewById(R.id.nameContact);
-            this.score = itemView.findViewById(R.id.phoneContact);
+            this.view = itemView;
+            this.pic = itemView.findViewById(R.id.imageRanking);
+            this.name = itemView.findViewById(R.id.userNameRanking);
+            this.score = itemView.findViewById(R.id.scoreRanking);
+            this.time = itemView.findViewById(R.id.timeRanking);
         }
     }
 
