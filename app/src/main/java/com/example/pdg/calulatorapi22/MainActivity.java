@@ -19,8 +19,10 @@ public class MainActivity extends AppCompatActivity {
         final Ranking_DataController ranking_DataController = new Ranking_DataController(this);
         ranking_DataController.resetRanking();
         ranking_DataController.newPlayerRanking("ABC", "1000", 1);
-        ranking_DataController.newPlayerRanking("DEF", "2000", 2);
-        ranking_DataController.newPlayerRanking("GHI", "3000", 3);
+        ranking_DataController.newPlayerRanking("ABC", "1000", 1);
+
+        //ranking_DataController.newPlayerRanking("DEF", "2000", 2);
+        //ranking_DataController.newPlayerRanking("GHI", "3000", 3);
 
 
         Button startCalc = (Button) findViewById(R.id.startCalc);
