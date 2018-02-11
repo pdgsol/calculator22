@@ -1,8 +1,6 @@
 package com.example.pdg.calulatorapi22;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -27,95 +25,21 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
     int incScore = 10;
     int decScore = -5;
     Integer score = 0;
-    int numCards = 9;
+    int totalNumCardsInGame = 12;
     String m_Text = "";
-    int nullId = 0xFFFF;
 
-    List<Integer> listDrawableId = new ArrayList<Integer>();
-    List<Integer> flippedCardsList = new ArrayList<Integer>();
-
-    List<Pair<Integer, ImageView>> imageViewList = new ArrayList<Pair<Integer, ImageView>>();
-
-    private void buildDrawableIdsArray()
-    {
-        listDrawableId.add(R.drawable.corpetit);
-        listDrawableId.add(R.drawable.ozaru);
-        listDrawableId.add(R.drawable.freezer1);
-        listDrawableId.add(R.drawable.gohan);
-        listDrawableId.add(R.drawable.ginyu);
-        listDrawableId.add(R.drawable.gokusuperguerrer2);
-        listDrawableId.add(R.drawable.jeice);
-        listDrawableId.add(R.drawable.nappa);
-        listDrawableId.add(R.drawable.trunks);
-        listDrawableId.add(R.drawable.vegeta1);
-        listDrawableId.add(R.drawable.vegetasuperguerrer);
-    }
-
-    private List<Integer> generateRandomCardDistribution(int numCards)
-    {
-        List<Integer> randomCombination = new ArrayList<Integer>();
-        randomCombination.add(listDrawableId.get(0));
-        randomCombination.add(listDrawableId.get(1));
-        randomCombination.add(listDrawableId.get(2));
-        randomCombination.add(listDrawableId.get(3));
-        randomCombination.add(listDrawableId.get(4));
-        randomCombination.add(listDrawableId.get(5));
-        randomCombination.add(listDrawableId.get(6));
-        randomCombination.add(listDrawableId.get(7));
-        randomCombination.add(listDrawableId.get(8));
-        randomCombination.add(listDrawableId.get(9));
-        randomCombination.add(listDrawableId.get(10));
-        randomCombination.add(listDrawableId.get(10));
-        randomCombination.add(listDrawableId.get(0));
-
-        return randomCombination;
-    }
+    CardGame cardGame = new CardGame();
+    List<Integer> gameFlippedCardsList = new ArrayList<Integer>();
+    List<Integer> turnFlippedCardsList = new ArrayList<Integer>();
 
     private void setUpGame()
     {
-        buildDrawableIdsArray();
-
-        List<Integer> randomCombination = generateRandomCardDistribution(numCards);
-
-        addViewImageList(randomCombination.get(0), R.id.card11);
-        addViewImageList(randomCombination.get(1), R.id.card12);
-        addViewImageList(randomCombination.get(2), R.id.card13);
-        addViewImageList(randomCombination.get(2), R.id.card14);
-        addViewImageList(randomCombination.get(3), R.id.card21);
-        addViewImageList(randomCombination.get(4), R.id.card22);
-        addViewImageList(randomCombination.get(5), R.id.card23);
-        addViewImageList(randomCombination.get(5), R.id.card24);
-        addViewImageList(randomCombination.get(6), R.id.card31);
-        addViewImageList(randomCombination.get(7), R.id.card32);
-        addViewImageList(randomCombination.get(7), R.id.card33);
-        addViewImageList(randomCombination.get(7), R.id.card34);
-
+        cardGame.buildCardGame();
+        List<Pair<Integer, Integer>> imageViewList = cardGame.getCardGameList();
         for(int i = 0; i < imageViewList.size(); ++i)
         {
-            imageViewList.get(i).second.setOnClickListener(this);
+            findViewById(imageViewList.get(i).second).setOnClickListener(this);
         }
-
-    }
-
-    private void addViewImageList(int imageId, int imageViewId)
-    {
-        imageViewList.add(Pair.create(imageId, (ImageView) findViewById(imageViewId)));
-    }
-
-    private int getDrawableIdFromImageViewId(int imageViewId)
-    {
-        int drawableId = nullId;
-        ImageView imageView;
-        for(int i = 0; i < imageViewList.size(); ++i)
-        {
-            if( imageViewList.get(i).second.getId() == imageViewId )
-            {
-                drawableId = imageViewList.get(i).first;
-                break;
-            }
-        }
-
-        return drawableId;
     }
 
     @Override
@@ -136,68 +60,46 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-
         //Log.i("GameActivity",  "onClick");
-        if (gameOngoing  && !alreadyFlipped(view)) {
+        if (gameOngoing  && !alreadyFlipped(view.getId())) {
             ImageView imageView = (ImageView) view;
-            imageView.setImageResource(getDrawableIdFromImageViewId(view.getId()));
+            imageView.setImageResource(cardGame.getDrawableIdFromImageViewId(imageView.getId()));
 
-            ++numFlippedCardsInTurn;
-            flippedCardsList.add((Integer) imageView.getId());
+            turnFlippedCardsList.add((Integer) imageView.getId());
 
-            if (numFlippedCardsInTurn == maxNumFlippedCards) {
+            if (turnFlippedCardsList.size() == maxNumFlippedCards) {
                 gameOngoing = false;
 
-                if(checkFlippedCards()) {
+                if(cardGame.checkFlippedCards(turnFlippedCardsList)) {
                     gameOngoing = true;
                     updateScore(incScore);
+                    gameFlippedCardsList.addAll(turnFlippedCardsList);
+                    turnFlippedCardsList.clear();
                 } else {
                     BackgroundCount bc = new BackgroundCount();
                     bc.execute(waitSecsToFlipCard);
                 }
-
-                numFlippedCardsInTurn = 0;
             }
         }
 
-        if(flippedCardsList.size() == numCards) {
-            finishGame(view);
+        if(gameFlippedCardsList.size() == totalNumCardsInGame) {
+            finishGame();
         }
     }
 
-    private boolean alreadyFlipped(View view) {
-        ImageView imageView = (ImageView) view;
-        return flippedCardsList.contains(view.getId());
-    }
-
-    private boolean checkFlippedCards()
-    {
-        boolean flippedCardsMatch= true;
-
-        if(!flippedCardsList.isEmpty()) {
-            int imageId_1 = getDrawableIdFromImageViewId(flippedCardsList.get(0));
-            int imageId_2 = 0;
-            for (int i = 1; i < flippedCardsList.size() && flippedCardsMatch; ++i){
-                imageId_2 = getDrawableIdFromImageViewId(flippedCardsList.get(i));
-                if( imageId_1 != imageId_2) {
-                    flippedCardsMatch = false;
-                }
-            }
-        }
-
-        return flippedCardsMatch;
+    private boolean alreadyFlipped(int imageViewId) {
+        return gameFlippedCardsList.contains(imageViewId) || turnFlippedCardsList.contains(imageViewId);
     }
 
     private void hideFlippedCards()
     {
-        for(int i = 0; i < flippedCardsList.size(); ++i) {
-            ImageView card = (ImageView) findViewById(flippedCardsList.get(i));
+        for(int i = 0; i < turnFlippedCardsList.size(); ++i) {
+            ImageView card = (ImageView) findViewById(turnFlippedCardsList.get(i));
             card.setImageResource(R.drawable.cardback);
         }
 
         gameOngoing = false;
-        numFlippedCardsInTurn = 0;
-        flippedCardsList.clear();
+        turnFlippedCardsList.clear();
     }
 
     private void updateScore(int incrementScore){
@@ -246,7 +148,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    private void finishGame(View view) {
+    private void finishGame() {
         TextView textView = (TextView) findViewById(R.id.scoreScreen);
         textView.setText("Final Score : " + score.toString());
         showDialog();
