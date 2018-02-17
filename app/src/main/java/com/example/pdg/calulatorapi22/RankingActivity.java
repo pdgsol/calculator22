@@ -1,4 +1,7 @@
 package com.example.pdg.calulatorapi22;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,16 +33,19 @@ public class RankingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ranking);
         setupRecyclerView();
         loadRanking();
+
+        //FloatingActionButton nextActionButton = findViewById(R.id.nextActionButton);
+
+        registerForContextMenu(recyclerView);
     }
 
     void setupRecyclerView()
     {
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         playerAdapter = initAdapter();
         recyclerView.setAdapter(playerAdapter);
-
 
     }
 
@@ -50,7 +56,6 @@ public class RankingActivity extends AppCompatActivity {
 
         final Ranking_DataController ranking_DataController = new Ranking_DataController(this);
         String[][] result = ranking_DataController.getRanking();
-
         players = new ArrayList<Player>();
 
         for(int i = 0; i < result.length; ++i)

@@ -1,8 +1,11 @@
 package com.example.pdg.calulatorapi22;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -53,6 +56,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        MediaPlayer music= MediaPlayer.create(GameActivity.this,R.raw.dbz_1);
+        music.start();
 
         gameActivity = this;
         setUpGame();
@@ -165,12 +171,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private void finishGame() {
         TextView textView = (TextView) findViewById(R.id.scoreScreen);
         textView.setText("Final Score : " + score.toString());
-        String userName = "User";
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.user_session), Context.MODE_PRIVATE);
+
+        String userName = sharedPref.getString(getString(R.string.user_session), "Error!");
         final Ranking_DataController  rankingDataController = new Ranking_DataController(this);
         rankingDataController.newPlayerRanking(userName, "1000", score );
         Intent intent = new Intent(gameActivity, RankingActivity.class);
         gameActivity.startActivity(intent);
-
     }
-    
+
 }

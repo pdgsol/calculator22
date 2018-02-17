@@ -1,10 +1,13 @@
 package com.example.pdg.calulatorapi22;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.pdg.calulatorapi22.database.Ranking_DataController;
 
@@ -23,7 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
         //ranking_DataController.newPlayerRanking("DEF", "2000", 2);
         //ranking_DataController.newPlayerRanking("GHI", "3000", 3);
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.user_session), Context.MODE_PRIVATE);
 
+        TextView userNameTextView = findViewById(R.id.userNameMainActivity);
+        userNameTextView.setText(sharedPref.getString(getString(R.string.user_session), "Error!"));
 
         Button startCalc = (Button) findViewById(R.id.startCalc);
         Button startGame = (Button) findViewById(R.id.startGame);
