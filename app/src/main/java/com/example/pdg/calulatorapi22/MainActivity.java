@@ -23,9 +23,10 @@ public class MainActivity extends AppCompatActivity {
         TextView userNameTextView = findViewById(R.id.userNameMainActivity);
         userNameTextView.setText(sharedPref.getString(getString(R.string.user_session), "Error!"));
 
-        Button startCalc = (Button) findViewById(R.id.startCalc);
-        Button startGame = (Button) findViewById(R.id.startGame);
-        Button rankingGame = (Button) findViewById(R.id.rankingGame);
+        Button startCalc = findViewById(R.id.startCalc);
+        Button startGame = findViewById(R.id.startGame);
+        Button rankingGame = findViewById(R.id.rankingGame);
+        Button mediaPlayer = findViewById(R.id.mediaPlayer);
 
         startCalc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), RankingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mediaPlayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), MediaPlayerActivity.class);
                 startActivity(intent);
             }
         });
