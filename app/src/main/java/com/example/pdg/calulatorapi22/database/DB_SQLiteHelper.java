@@ -14,7 +14,7 @@ public class DB_SQLiteHelper extends SQLiteOpenHelper {
     String sqlCreateRanking = "CREATE TABLE " + DBRankingContract.TABLE_NAME + " (" + DBRankingContract.COLUMN_USERNAME + " TEXT, "
             + DBRankingContract.COLUMN_TIMESTAMP + " TEXT, " + DBRankingContract.COLUMN_SCORE + " INTEGER)";
 
-    String sqlCreateUsers = "CREATE TABLE " + DBUsersContract.TABLE_NAME + " (" + DBRankingContract.COLUMN_USERNAME + " TEXT, "
+    String sqlCreateUsers = "CREATE TABLE " + DBUsersContract.TABLE_NAME + " (" + DBRankingContract.COLUMN_USERNAME + " TEXT PRIMARY KEY, "
             + DBUsersContract.COLUMN_PASSWORD + " TEXT)";
 
     public DB_SQLiteHelper(Context contexto, String nombre,

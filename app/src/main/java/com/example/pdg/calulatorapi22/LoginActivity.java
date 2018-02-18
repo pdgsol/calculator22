@@ -57,9 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static  String[] DUMMY_CREDENTIALS;/* = new String[]{
-            "aaaaa:aaaaa", "bbbbb:bbbbb"
-    };*/
+    private static  String[] DUMMY_CREDENTIALS;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -79,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //Setup DB
         final DBRanking_DataController db_Ranking_DataController = new DBRanking_DataController(this);
 
-        //db_Ranking_DataController.resetRanking();
+        db_Ranking_DataController.resetRanking();
         //db_Ranking_DataController.newPlayerRanking("ABC", "1000", 1);
         //db_Ranking_DataController.newPlayerRanking("ABC", "1000", 1);
 
@@ -331,7 +329,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 return false;
             }
@@ -343,8 +341,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return pieces[1].equals(mPassword);
                 }
             }
-
-            // TODO: register the new account here.
             return false;
         }
 
@@ -355,7 +351,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
-
                 SharedPreferences sharedPref = getSharedPreferences(
                         getString(R.string.user_session), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();

@@ -48,9 +48,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderMa
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "aaaaa:aaaaa", "bbbbb:bbbbb"
-    };
+    private static String[] DUMMY_CREDENTIALS;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -69,6 +67,8 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
+        final DBUsers_DataController db_UsersDataController = new DBUsers_DataController(this);
+        DUMMY_CREDENTIALS = db_UsersDataController.getUsers();
         mCreateAccountActivity = this;
         // Set up the login form.
         mUserNameView = (AutoCompleteTextView) findViewById(R.id.create_user
@@ -170,16 +170,18 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderMa
             cancel = true;
         }
 
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
         // Check for a valid userName.
         if (TextUtils.isEmpty(userName)) {
             mUserNameView.setError(getString(R.string.error_field_required));
             focusView = mUserNameView;
             cancel = true;
-        } /*else if (!isEmailValid(email)) {
-            mUserNameView.setError(getString(R.string.error_invalid_email));
-            focusView = mUserNameView;
-            cancel = true;
-        }*/
+        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -215,15 +217,6 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderMa
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-/*            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });*/
-
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
@@ -236,7 +229,6 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderMa
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            // mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -310,11 +302,9 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderMa
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 return false;
             }
@@ -326,17 +316,12 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderMa
                     return false;
                 }
             }
-
-            // TODO: register the new account here.
-
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            //showProgress(false);
-
             if (success) {
                 finish();
                 final DBUsers_DataController db_UsersDataController = new DBUsers_DataController(mCreateAccountActivity);
@@ -350,7 +335,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderMa
                 Intent intent = new Intent(mCreateAccountActivity, MainActivity.class);
                 mCreateAccountActivity.startActivity(intent);
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.setError(getString(R.string.error_user_already_exist));
                 mPasswordView.requestFocus();
             }
         }
