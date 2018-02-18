@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.pdg.calulatorapi22.database.Ranking_DataController;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -18,14 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Setup DB
-        final Ranking_DataController ranking_DataController = new Ranking_DataController(this);
-        ranking_DataController.resetRanking();
-        ranking_DataController.newPlayerRanking("ABC", "1000", 1);
-        ranking_DataController.newPlayerRanking("ABC", "1000", 1);
 
-        //ranking_DataController.newPlayerRanking("DEF", "2000", 2);
-        //ranking_DataController.newPlayerRanking("GHI", "3000", 3);
         SharedPreferences sharedPref = getSharedPreferences(
                 getString(R.string.user_session), Context.MODE_PRIVATE);
 

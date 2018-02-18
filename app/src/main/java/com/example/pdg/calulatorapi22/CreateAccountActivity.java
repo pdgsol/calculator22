@@ -4,28 +4,25 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -33,9 +30,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.pdg.calulatorapi22.database.DBRankingContract;
-import com.example.pdg.calulatorapi22.database.DBUsersContract;
-import com.example.pdg.calulatorapi22.database.DBRanking_DataController;
 import com.example.pdg.calulatorapi22.database.DBUsers_DataController;
 
 import java.util.ArrayList;
@@ -43,10 +37,7 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-/**
- * A login screen that offers login via email/password.
- */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class CreateAccountActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -57,49 +48,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static  String[] DUMMY_CREDENTIALS;/* = new String[]{
+    private static final String[] DUMMY_CREDENTIALS = new String[]{
             "aaaaa:aaaaa", "bbbbb:bbbbb"
-    };*/
+    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private CreateAccountActivity.CreateUserTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mUserNameView;
     private EditText mPasswordView;
+    private EditText mRepeatPasswordView;
     private View mProgressView;
-//    private View mLoginFormView;
-    Activity mLoginActivity;
+    //    private View mLoginFormView;
+    Activity mCreateAccountActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_create_account);
 
-        //Setup DB
-        final DBRanking_DataController db_Ranking_DataController = new DBRanking_DataController(this);
-
-        db_Ranking_DataController.resetRanking();
-        db_Ranking_DataController.newPlayerRanking("ABC", "1000", 1);
-        db_Ranking_DataController.newPlayerRanking("ABC", "1000", 1);
-
-
-        final DBUsers_DataController db_UsersDataController = new DBUsers_DataController(this);
-        db_UsersDataController.resetUsers();
-        db_UsersDataController.newUser("fffff", "fffff");
-        db_UsersDataController.newUser("aaaaa", "aaaaa");
-        DUMMY_CREDENTIALS = db_UsersDataController.getUsers();
-
-
-
-        mLoginActivity = this;
+        mCreateAccountActivity = this;
         // Set up the login form.
-        mUserNameView = (AutoCompleteTextView) findViewById(R.id.user_name
+        mUserNameView = (AutoCompleteTextView) findViewById(R.id.create_user
         );
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = (EditText) findViewById(R.id.create_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -111,33 +87,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mLoginButton = (Button) findViewById(R.id.log_in_button);
-        mLoginButton.setOnClickListener(new OnClickListener() {
+        Button mCreateAccount = findViewById(R.id.create_account_button);
+        mCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
-
-                SharedPreferences sharedPref = getSharedPreferences(
-                        getString(R.string.user_session), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(getString(R.string.user_session), mUserNameView.getText().toString());
-                editor.apply();
-
-
             }
         });
 
-        Button mSiginButton = (Button) findViewById(R.id.sign_in_button);
-        mSiginButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mLoginActivity, CreateAccountActivity.class);
-                mLoginActivity.startActivity(intent);
-            }
-        });
-
-
-//        mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
 
@@ -231,14 +188,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(userName, password);
+            //(true);
+            mAuthTask = new CreateAccountActivity.CreateUserTask(userName, password);
             mAuthTask.execute((Void) null);
         }
     }
 
-    private boolean isEmailValid(String email) {
-         //TODO: Replace this with your own logic
+    private boolean isUserValid(String email) {
+        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
@@ -279,7 +236,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-           // mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            // mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -288,7 +245,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return new CursorLoader(this,
                 // Retrieve data rows for the device user's 'profile' contact.
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
+                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), CreateAccountActivity.ProfileQuery.PROJECTION,
 
                 // Select only email addresses.
                 ContactsContract.Contacts.Data.MIMETYPE +
@@ -305,7 +262,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         List<String> emails = new ArrayList<>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
+            emails.add(cursor.getString(CreateAccountActivity.ProfileQuery.ADDRESS));
             cursor.moveToNext();
         }
 
@@ -320,7 +277,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(CreateAccountActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mUserNameView.setAdapter(adapter);
@@ -341,12 +298,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class CreateUserTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mUsername;
         private final String mPassword;
 
-        UserLoginTask(String userName, String password) {
+        CreateUserTask(String userName, String password) {
             mUsername = userName;
             mPassword = password;
         }
@@ -366,24 +323,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mUsername)) {
                     // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                    return false;
                 }
             }
 
             // TODO: register the new account here.
-            return false;
+
+            return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
+            //showProgress(false);
 
             if (success) {
                 finish();
-                Intent intent = new Intent(mLoginActivity, MainActivity.class);
-                mLoginActivity.startActivity(intent);
-                //startActivity(intent);
+                final DBUsers_DataController db_UsersDataController = new DBUsers_DataController(mCreateAccountActivity);
+                db_UsersDataController.newUser(mUsername, mPassword);
+                SharedPreferences sharedPref = getSharedPreferences(
+                        getString(R.string.user_session), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.user_session), mUserNameView.getText().toString());
+                editor.apply();
+
+                Intent intent = new Intent(mCreateAccountActivity, MainActivity.class);
+                mCreateAccountActivity.startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -397,4 +362,3 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 }
-

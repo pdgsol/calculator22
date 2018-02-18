@@ -2,23 +2,20 @@ package com.example.pdg.calulatorapi22;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.pdg.calulatorapi22.database.Ranking_DataController;
+import com.example.pdg.calulatorapi22.database.DBRankingContract;
+import com.example.pdg.calulatorapi22.database.DBRanking_DataController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +55,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
 
         MediaPlayer music= MediaPlayer.create(GameActivity.this,R.raw.dbz_1);
-        music.start();
+        //music.start();
 
         gameActivity = this;
         setUpGame();
@@ -175,7 +172,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 getString(R.string.user_session), Context.MODE_PRIVATE);
 
         String userName = sharedPref.getString(getString(R.string.user_session), "Error!");
-        final Ranking_DataController  rankingDataController = new Ranking_DataController(this);
+        final DBRanking_DataController rankingDataController = new DBRanking_DataController(this);
         rankingDataController.newPlayerRanking(userName, "1000", score );
         Intent intent = new Intent(gameActivity, RankingActivity.class);
         gameActivity.startActivity(intent);

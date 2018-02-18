@@ -33,7 +33,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="168dp"
+        android:layout_height="108dp"
         android:layout_weight="1" />
 
     <Button
@@ -44,11 +44,6 @@
         android:backgroundTint="@android:color/background_dark"
         android:text="Calculator"
         android:textColor="@android:color/background_light" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="33dp"
-        android:layout_weight="1" />
 
     <Button
         android:id="@+id/startGame"
@@ -66,9 +61,13 @@
         android:layout_weight="1"
         android:text="Ranking " />
 
-    <Space
+    <Button
+        android:id="@+id/mediaplayer_button"
         android:layout_width="match_parent"
-        android:layout_height="168dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Media Player" />
+
+
 
 </LinearLayout>

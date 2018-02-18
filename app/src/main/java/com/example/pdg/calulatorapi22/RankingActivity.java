@@ -1,19 +1,14 @@
 package com.example.pdg.calulatorapi22;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.example.pdg.calulatorapi22.database.Ranking_DataController;
+import com.example.pdg.calulatorapi22.database.DBRankingContract;
+import com.example.pdg.calulatorapi22.database.DBRanking_DataController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +19,7 @@ public class RankingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private mAdapter playerAdapter;
-    private Ranking_DataController ranking_DataController;
+    private DBRanking_DataController db_Ranking_DataController;
 
 
     @Override
@@ -54,8 +49,8 @@ public class RankingActivity extends AppCompatActivity {
     }
     List<Player> loadRanking() {
 
-        final Ranking_DataController ranking_DataController = new Ranking_DataController(this);
-        String[][] result = ranking_DataController.getRanking();
+        final DBRanking_DataController db_Ranking_DataController = new DBRanking_DataController(this);
+        String[][] result = db_Ranking_DataController.getRanking();
         players = new ArrayList<Player>();
 
         for(int i = 0; i < result.length; ++i)

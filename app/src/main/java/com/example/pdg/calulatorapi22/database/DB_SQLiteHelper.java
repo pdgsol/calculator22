@@ -10,18 +10,29 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
 
-public class Ranking_SQLiteHelper extends SQLiteOpenHelper {
+public class DB_SQLiteHelper extends SQLiteOpenHelper {
     String sqlCreateRanking = "CREATE TABLE " + DBRankingContract.TABLE_NAME + " (" + DBRankingContract.COLUMN_USERNAME + " TEXT, "
             + DBRankingContract.COLUMN_TIMESTAMP + " TEXT, " + DBRankingContract.COLUMN_SCORE + " INTEGER)";
-    public Ranking_SQLiteHelper(Context contexto, String nombre,
-                                CursorFactory factory, int version) {
+
+    String sqlCreateUsers = "CREATE TABLE " + DBUsersContract.TABLE_NAME + " (" + DBRankingContract.COLUMN_USERNAME + " TEXT, "
+            + DBUsersContract.COLUMN_PASSWORD + " TEXT)";
+
+    public DB_SQLiteHelper(Context contexto, String nombre,
+                           CursorFactory factory, int version) {
         super(contexto, nombre, factory, version);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL(sqlCreateRanking);
+        if(this.getDatabaseName().equals(DBUsersContract.TABLE_NAME)) {
+            db.execSQL(sqlCreateUsers);
+        }
+
+        if(this.getDatabaseName().equals(DBRankingContract.TABLE_NAME)) {
+            db.execSQL(sqlCreateRanking);
+        }
+
     }
 
     @Override
@@ -29,7 +40,9 @@ public class Ranking_SQLiteHelper extends SQLiteOpenHelper {
                           int versionNueva) {
 
         db.execSQL("DROP TABLE IF EXISTS " + DBRankingContract.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DBUsersContract.TABLE_NAME);
         db.execSQL(sqlCreateRanking);
+        db.execSQL(sqlCreateUsers);
     }
 
 
@@ -42,8 +55,16 @@ public class Ranking_SQLiteHelper extends SQLiteOpenHelper {
         db.insert(DBRankingContract.TABLE_NAME,null,newInsert);
     }
 
+    public void insertUser(SQLiteDatabase db, String username, String password)
+    {
+        ContentValues newInsert = new ContentValues();
+        newInsert.put(DBUsersContract.COLUMN_USERNAME, username);
+        newInsert.put(DBUsersContract.COLUMN_PASSWORD,password);
+        db.insert(DBUsersContract.TABLE_NAME,null,newInsert);
+    }
 
-    public String[][] selectAll(SQLiteDatabase db, String nameTable)
+
+    public String[][] selectAllRanking(SQLiteDatabase db, String nameTable)
     {
         Cursor c = db.rawQuery(" SELECT * FROM " + nameTable + " ORDER BY score ASC", null);
 
@@ -55,6 +76,22 @@ public class Ranking_SQLiteHelper extends SQLiteOpenHelper {
                 sResult[i][1] = c.getString(1);
                 sResult[i][2] = c.getString(2);
                 //sResult[i][3] = c.getString(3);
+                ++i;
+            } while(c.moveToNext());
+        }
+        c.close();
+        return sResult;
+    }
+
+    public String[] selectAllUsers(SQLiteDatabase db, String nameTable)
+    {
+        Cursor c = db.rawQuery(" SELECT * FROM " + nameTable, null);
+
+        String[] sResult = new String[c.getCount()];
+        if (c.moveToFirst()) {
+            int i = 0;
+            do {
+                sResult[i] = c.getString(0) + ":" + c.getString(1);
                 ++i;
             } while(c.moveToNext());
         }
