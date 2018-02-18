@@ -371,7 +371,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             // TODO: register the new account here.
-            return false;
+            return true;
         }
 
         @Override
@@ -383,7 +383,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 finish();
                 Intent intent = new Intent(mLoginActivity, MainActivity.class);
                 mLoginActivity.startActivity(intent);
-                //startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
