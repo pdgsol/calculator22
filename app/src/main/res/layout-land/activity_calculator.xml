@@ -4,34 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:padding="8dp"
+    android:orientation="vertical"
     tools:context="com.example.pdg.calulatorapi22.CalculatorActivity">
 
-    <TextView
-        android:id="@+id/screen"
+
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:layout_weight="5"
-        android:background="@android:color/darker_gray"
-        android:backgroundTint="?attr/colorButtonNormal"
-        android:gravity="bottom|right"
-        android:textColor="@android:color/background_dark"
-        android:textSize="30sp"
-        tools:text="789" />
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarCalculator"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/header_user_logged"  />
+            <Space
+                android:layout_width="2dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/userNameCalculatorActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+        </LinearLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+
+        <TextView
+            android:id="@+id/screen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            android:layout_weight="4"
+            android:background="@android:color/darker_gray"
+            android:backgroundTint="?attr/colorButtonNormal"
+            android:gravity="bottom|right"
+            android:textColor="@android:color/background_dark"
+            android:textSize="30sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="3"
+            android:layout_weight="5"
             android:orientation="vertical">
 
             <Button
@@ -79,56 +119,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:orientation="vertical"
-            android:textColor="@android:color/background_light">
-
-            <Button
-                android:id="@+id/keySeven"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_blue_dark"
-                android:text="7"
-                android:textColor="@android:color/background_light"
-                android:textSize="30sp" />
-
-            <Button
-                android:id="@+id/keyEigth"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_blue_dark"
-                android:text="8"
-                android:textColor="@android:color/background_light"
-                android:textSize="30sp" />
-
-            <Button
-                android:id="@+id/keyNine"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_blue_dark"
-                android:text="9"
-                android:textColor="@android:color/background_light"
-                android:textSize="30sp" />
-
-            <Button
-                android:id="@+id/keyMul"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/background_dark"
-                android:text="*"
-                android:textColor="@android:color/background_light"
-                android:textSize="30sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="5"
             android:orientation="vertical"
             android:textSize="30sp">
 
@@ -177,7 +168,56 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="5"
+            android:orientation="vertical"
+            android:textColor="@android:color/background_light">
+
+            <Button
+                android:id="@+id/keySeven"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:text="7"
+                android:textColor="@android:color/background_light"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/keyEigth"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:text="8"
+                android:textColor="@android:color/background_light"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/keyNine"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:text="9"
+                android:textColor="@android:color/background_light"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/keyMul"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/background_dark"
+                android:text="*"
+                android:textColor="@android:color/background_light"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
             android:orientation="vertical"
             android:textColor="@android:color/background_light"
             android:textSize="30sp">
@@ -190,7 +230,7 @@
                 android:backgroundTint="@android:color/background_dark"
                 android:text="ANS"
                 android:textColor="@android:color/background_light"
-                android:textSize="30sp" />
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/keyZero"
@@ -201,6 +241,56 @@
                 android:text="0"
                 android:textColor="@android:color/background_light"
                 android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/keyCE"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/background_dark"
+                android:text="CE"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/keyDiv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/background_dark"
+                android:text="/"
+                android:textColor="@android:color/background_light"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="vertical"
+            android:textColor="@android:color/background_light"
+            android:textSize="30sp">
+
+            <Button
+                android:id="@+id/keySave"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/background_dark"
+                android:text="Save"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/keyRestore"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:text="Rest"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/keyDot"
@@ -223,6 +313,8 @@
                 android:textSize="30sp" />
 
         </LinearLayout>
+
     </LinearLayout>
+
 
 </LinearLayout>
