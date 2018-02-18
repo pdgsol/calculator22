@@ -20,7 +20,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
@@ -29,7 +29,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="User Logged :" />
+                android:text="@string/header_user_logged" />
+
+            <Space
+                android:layout_width="2dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/userNameGameActivity"
@@ -37,6 +42,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="" />
+
+            <Space
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/scoreScreen"
@@ -63,7 +73,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="6"
+        android:layout_weight="12"
         android:orientation="horizontal"
         >
 
@@ -102,7 +112,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="6"
+        android:layout_weight="12"
         android:orientation="horizontal"
         >
 
@@ -139,7 +149,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="6"
+        android:layout_weight="12"
         android:orientation="horizontal">
 
         <ImageView
@@ -182,9 +192,8 @@
 
         <Button
             android:id="@+id/restartGame"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
             android:text="Restart Game"
             />
 

@@ -28,6 +28,6 @@
     <string name="action_logout">Logout</string>
     <string name="title_activity_media_player">Media Player</string>
     <string name="title_activity_create_user">Create New User</string>
-
+    <string name="header_user_logged">User logged :  </string>
 
 </resources>
