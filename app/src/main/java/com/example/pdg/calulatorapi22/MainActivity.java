@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences(
                 getString(R.string.user_session), Context.MODE_PRIVATE);
-
         TextView userNameTextView = findViewById(R.id.userNameMainActivity);
         userNameTextView.setText(sharedPref.getString(getString(R.string.user_session), "Error!"));
 

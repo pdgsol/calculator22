@@ -60,6 +60,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarGame);
         setSupportActionBar(toolbar);
 
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.user_session), Context.MODE_PRIVATE);
+        TextView userNameTextView = findViewById(R.id.userNameGameActivity);
+        userNameTextView.setText(sharedPref.getString(getString(R.string.user_session), "Error!"));
+
         mGameActivity = this;
         setUpGame();
 

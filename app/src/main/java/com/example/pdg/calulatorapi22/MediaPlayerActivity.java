@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class MediaPlayerActivity extends AppCompatActivity {
@@ -26,6 +27,12 @@ public class MediaPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_media_player);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.user_session), Context.MODE_PRIVATE);
+        TextView userNameTextView = findViewById(R.id.userNameMediaPlayerActivity);
+        userNameTextView.setText(sharedPref.getString(getString(R.string.user_session), "Error!"));
+
+
         mMediaPlayerActivity = this;
         mp = MediaPlayer.create(this,R.raw.dbz_1);
 

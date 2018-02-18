@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.pdg.calulatorapi22.database.DBRankingContract;
 import com.example.pdg.calulatorapi22.database.DBRanking_DataController;
@@ -37,9 +39,22 @@ public class RankingActivity extends AppCompatActivity {
         mRankingActivity = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarRanking);
         setSupportActionBar(toolbar);
-        //FloatingActionButton nextActionButton = findViewById(R.id.nextActionButton);
-
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.user_session), Context.MODE_PRIVATE);
+        TextView userNameTextView = findViewById(R.id.userNameRankingActivity);
+        userNameTextView.setText(sharedPref.getString(getString(R.string.user_session), "Error!"));
         registerForContextMenu(recyclerView);
+
+        final FloatingActionButton nextRanking = findViewById(R.id.nextRanking);
+
+        nextRanking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     void setupRecyclerView()

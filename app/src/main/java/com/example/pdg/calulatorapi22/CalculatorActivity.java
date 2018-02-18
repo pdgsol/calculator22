@@ -67,6 +67,12 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCalculator);
         setSupportActionBar(toolbar);
 
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.user_session), Context.MODE_PRIVATE);
+        TextView userNameTextView = findViewById(R.id.userNameCalculatorActivity);
+        userNameTextView.setText(sharedPref.getString(getString(R.string.user_session), "Error!"));
+
+
         Button keyOne = (Button) findViewById(R.id.keyOne);
         Button keyTwo = (Button) findViewById(R.id.keyTwo);
         Button keyThree = (Button) findViewById(R.id.keyThree);
