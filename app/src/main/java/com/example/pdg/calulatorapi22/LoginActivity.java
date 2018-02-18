@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         final DBRanking_DataController db_Ranking_DataController = new DBRanking_DataController(this);
         //db_Ranking_DataController.newPlayerRanking("ABC", "1000", 1);
         //db_Ranking_DataController.newPlayerRanking("ABC", "1000", 1);
-        
+
         final DBUsers_DataController db_UsersDataController = new DBUsers_DataController(this);
         //db_UsersDataController.resetUsers();
         //db_UsersDataController.newUser("fffff", "fffff");
@@ -119,8 +119,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button mResetButton = (Button) findViewById(R.id.reset_app_button);
+        mResetButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db_UsersDataController.resetUsers();
+                db_Ranking_DataController.resetRanking();
+                DUMMY_CREDENTIALS = new String[0];
+            }
+        });
 
-//        mLoginFormView = findViewById(R.id.login_form);
+
+
         mProgressView = findViewById(R.id.login_progress);
     }
 

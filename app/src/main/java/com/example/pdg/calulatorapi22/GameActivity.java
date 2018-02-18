@@ -20,7 +20,9 @@ import android.widget.TextView;
 import com.example.pdg.calulatorapi22.database.DBRankingContract;
 import com.example.pdg.calulatorapi22.database.DBRanking_DataController;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
@@ -180,8 +182,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 getString(R.string.user_session), Context.MODE_PRIVATE);
 
         String userName = sharedPref.getString(getString(R.string.user_session), "Error!");
+        SimpleDateFormat s = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        String timeStamp = s.format(new Date());
+
         final DBRanking_DataController rankingDataController = new DBRanking_DataController(this);
-        rankingDataController.newPlayerRanking(userName, "1000", score );
+        rankingDataController.newPlayerRanking(userName, timeStamp, score );
         Intent intent = new Intent(mGameActivity, RankingActivity.class);
         mGameActivity.startActivity(intent);
     }

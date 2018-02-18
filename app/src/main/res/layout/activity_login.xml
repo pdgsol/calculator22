@@ -93,6 +93,16 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
+            <Button
+                android:id="@+id/reset_app_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_reset_app"
+                android:textStyle="bold" />
+
+
         </LinearLayout>
 
 </LinearLayout>
