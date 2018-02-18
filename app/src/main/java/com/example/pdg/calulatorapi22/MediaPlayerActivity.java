@@ -1,9 +1,14 @@
 package com.example.pdg.calulatorapi22;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,17 +18,18 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
     MediaPlayer mp;
     boolean reproducing = false;
-    boolean permission_granted = false;
+    Activity mMediaPlayerActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_media_player);
-      //  Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+        mMediaPlayerActivity = this;
         mp = MediaPlayer.create(this,R.raw.dbz_1);
 
-        final FloatingActionButton play = (FloatingActionButton) findViewById(R.id.play);
+        final FloatingActionButton play = findViewById(R.id.play);
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,16 +52,19 @@ public class MediaPlayerActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+            SharedPreferences sharedPref = getSharedPreferences(
+                    getString(R.string.user_session), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.user_session), "");
+            editor.apply();
+
+            Intent intent = new Intent(mMediaPlayerActivity, LoginActivity.class);
+            startActivity(intent);
             return true;
         }
 

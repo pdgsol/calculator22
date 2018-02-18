@@ -20,7 +20,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CalculatorActivity"
-            android:label="@string/title_activity_game"
+            android:label="@string/title_activity_Calculator"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".GameActivity"
@@ -39,8 +39,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateAccountActivity" />
-        <activity android:name=".MediaPlayerActivity"></activity>
+        <activity android:name=".CreateAccountActivity"
+            android:label="@string/title_activity_create_user"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MediaPlayerActivity" 
+            android:label="@string/title_activity_media_player"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

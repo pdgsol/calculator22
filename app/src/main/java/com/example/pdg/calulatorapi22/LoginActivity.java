@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private AutoCompleteTextView mUserNameView;
     private EditText mPasswordView;
     private View mProgressView;
-//    private View mLoginFormView;
     Activity mLoginActivity;
 
     @Override
@@ -92,11 +91,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         DUMMY_CREDENTIALS = db_UsersDataController.getUsers();
 
 
-
         mLoginActivity = this;
-        // Set up the login form.
-        mUserNameView = (AutoCompleteTextView) findViewById(R.id.user_name
-        );
+        mUserNameView = (AutoCompleteTextView) findViewById(R.id.user_name);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);

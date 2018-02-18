@@ -8,7 +8,10 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,7 +31,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     int incScore = 10;
     int decScore = -5;
     Integer score = 0;
-    Activity gameActivity;
+    Activity mGameActivity;
 
     CardGame cardGame;
     List<Integer> gameFlippedCardsList;
@@ -54,10 +57,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        MediaPlayer music= MediaPlayer.create(GameActivity.this,R.raw.dbz_1);
-        //music.start();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarGame);
+        setSupportActionBar(toolbar);
 
-        gameActivity = this;
+        mGameActivity = this;
         setUpGame();
 
         Button checkResult = findViewById(R.id.restartGame);
@@ -174,8 +177,34 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         String userName = sharedPref.getString(getString(R.string.user_session), "Error!");
         final DBRanking_DataController rankingDataController = new DBRanking_DataController(this);
         rankingDataController.newPlayerRanking(userName, "1000", score );
-        Intent intent = new Intent(gameActivity, RankingActivity.class);
-        gameActivity.startActivity(intent);
+        Intent intent = new Intent(mGameActivity, RankingActivity.class);
+        mGameActivity.startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            SharedPreferences sharedPref = getSharedPreferences(
+                    getString(R.string.user_session), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.user_session), "");
+            editor.apply();
+
+            Intent intent = new Intent(mGameActivity, LoginActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
