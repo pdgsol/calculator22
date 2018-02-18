@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal|center"
     android:orientation="vertical"
     tools:context="com.example.pdg.calulatorapi22.MainActivity">
 
@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarMain"
             android:layout_width="match_parent"
@@ -25,11 +26,11 @@
             android:orientation="horizontal">
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/header_user_logged" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/header_user_logged" />
 
             <Space
                 android:layout_width="2dp"
@@ -48,12 +49,12 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="108dp"
+        android:layout_height="56dp"
         android:layout_weight="1" />
 
     <Button
         android:id="@+id/startCalc"
-        android:layout_width="447dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:backgroundTint="@android:color/background_dark"
@@ -62,9 +63,10 @@
 
     <Button
         android:id="@+id/startGame"
-        android:layout_width="410dp"
+
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
+        android:layout_weight="1"
         android:backgroundTint="@android:color/background_dark"
         android:text="Game"
         android:textColor="@android:color/background_light" />
@@ -74,15 +76,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Ranking " />
+        android:backgroundTint="@android:color/background_dark"
+        android:text="Ranking "
+        android:textColor="@android:color/background_light" />
 
     <Button
         android:id="@+id/mediaPlayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Media Player" />
-
+        android:backgroundTint="@android:color/background_dark"
+        android:text="Media Player"
+        android:textColor="@android:color/background_light" />
 
 
 </LinearLayout>

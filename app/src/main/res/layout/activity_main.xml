@@ -62,9 +62,10 @@
 
     <Button
         android:id="@+id/startGame"
-        android:layout_width="410dp"
+
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
+        android:layout_weight="1"
         android:backgroundTint="@android:color/background_dark"
         android:text="Game"
         android:textColor="@android:color/background_light" />
@@ -73,6 +74,8 @@
         android:id="@+id/rankingGame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/background_dark"
+        android:textColor="@android:color/background_light"
         android:layout_weight="1"
         android:text="Ranking " />
 
@@ -80,6 +83,8 @@
         android:id="@+id/mediaPlayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/background_dark"
+        android:textColor="@android:color/background_light"
         android:layout_weight="1"
         android:text="Media Player" />
 
