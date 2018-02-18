@@ -76,12 +76,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         //Setup DB
         final DBRanking_DataController db_Ranking_DataController = new DBRanking_DataController(this);
-
-        db_Ranking_DataController.resetRanking();
         //db_Ranking_DataController.newPlayerRanking("ABC", "1000", 1);
         //db_Ranking_DataController.newPlayerRanking("ABC", "1000", 1);
-
-
+        
         final DBUsers_DataController db_UsersDataController = new DBUsers_DataController(this);
         //db_UsersDataController.resetUsers();
         //db_UsersDataController.newUser("fffff", "fffff");
