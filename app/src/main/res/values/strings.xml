@@ -32,4 +32,11 @@
     <string name="header_user_logged">User logged :  </string>
     <string name="action_reset_app">Reset Application</string>
 
+    <string name="snackbar_text">Screen cleaned</string>
+
+    <string name="save_last_activity">Screen cleaned</string>
+    <string name="calculator_screen_value">calculator_screen_value</string>
+    <string name="app_reset_mesagge">The application has been reset (DB removed)</string>
+
+
 </resources>

@@ -1,11 +1,15 @@
 package com.example.pdg.calulatorapi22;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
@@ -98,7 +102,8 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         screen = (TextView) findViewById(R.id.screen);
         screen.setText(content);
 
-        
+
+
         keyOne.setOnClickListener(this);
         keyTwo.setOnClickListener(this);
         keyThree.setOnClickListener(this);
@@ -144,6 +149,8 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
             public void onClick(View view) {
                 screen.setText("");
                 content = "";
+                Snackbar.make(view, getString(R.string.snackbar_text), Snackbar.LENGTH_LONG)
+                        .show();
             }
         });
 
@@ -265,25 +272,39 @@ public class CalculatorActivity  extends AppCompatActivity implements View.OnCli
         toast.show();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    private void saveState()
+    {
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.save_last_activity), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.save_last_activity), CalculatorActivity.class.getSimpleName());
+        editor.apply();
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        //SharedPreferences sharedPref = getSharedPreferences(
-        //      getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        //screen.setText(sharedPref.getString(getString(R.string.preference_file_key), ""));
+        saveState();
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.calculator_screen_value), Context.MODE_PRIVATE);
+        screen.setText(sharedPref.getString(getString(R.string.calculator_screen_value), ""));
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
+        saveState();
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.calculator_screen_value), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(screen.getText().toString(), CalculatorActivity.class.getSimpleName());
+        editor.apply();
 
-        //SharedPreferences sharedPref = getSharedPreferences(
-                //      getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        //SharedPreferences.Editor editor = sharedPref.edit();
-        //editor.putString(getString(R.string.preference_file_key), screen.getText().toString());
-        //editor.apply();
     }
 
     @Override

@@ -346,4 +346,25 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderMa
             showProgress(false);
         }
     }
+
+    private void saveState()
+    {
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.save_last_activity), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.save_last_activity), CreateAccountActivity.class.getSimpleName());
+        editor.apply();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        saveState();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveState();
+    }
 }

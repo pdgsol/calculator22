@@ -32,6 +32,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pdg.calulatorapi22.database.DBRankingContract;
 import com.example.pdg.calulatorapi22.database.DBUsersContract;
@@ -123,10 +124,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 db_UsersDataController.resetUsers();
                 db_Ranking_DataController.resetRanking();
                 DUMMY_CREDENTIALS = new String[0];
+
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, getString(R.string.app_reset_mesagge), duration);
+                toast.show();
+
             }
         });
-
-
 
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -375,5 +380,54 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.user_session), Context.MODE_PRIVATE);
+        if(!sharedPref.getString(getString(R.string.user_session), "").equals(""))
+        {
+            sharedPref = getSharedPreferences(
+                getString(R.string.save_last_activity), Context.MODE_PRIVATE);
+            String lastActivity = sharedPref.getString(getString(R.string.user_session), "");
+
+            if(lastActivity.equals(CalculatorActivity.class.getSimpleName())) {
+                Intent intent = new Intent(mLoginActivity, CalculatorActivity.class);
+                startActivity(intent);
+            } else if(lastActivity.equals(CreateAccountActivity.class.getSimpleName())) {
+                Intent intent = new Intent(mLoginActivity, CreateAccountActivity.class);
+                startActivity(intent);
+            } else if(lastActivity.equals(GameActivity.class.getSimpleName())) {
+                Intent intent = new Intent(mLoginActivity, GameActivity.class);
+                startActivity(intent);
+            } else if(lastActivity.equals(MainActivity.class.getSimpleName())) {
+                Intent intent = new Intent(mLoginActivity, MainActivity.class);
+                startActivity(intent);
+            } else if(lastActivity.equals(MediaPlayerActivity.class.getSimpleName())) {
+                Intent intent = new Intent(mLoginActivity, MediaPlayerActivity.class);
+                startActivity(intent);
+            } else if(lastActivity.equals(RankingActivity.class.getSimpleName())) {
+                Intent intent = new Intent(mLoginActivity, RankingActivity.class);
+                startActivity(intent);
+            }
+        } else {
+            //Clean sharedPreferences
+            sharedPref = getSharedPreferences(
+              getString(R.string.save_last_activity), Context.MODE_PRIVATE);
+             SharedPreferences.Editor editor = sharedPref.edit();
+             editor.putString(getString(R.string.save_last_activity), "");
+             editor.apply();
+
+            sharedPref = getSharedPreferences(
+                    getString(R.string.calculator_screen_value), Context.MODE_PRIVATE);
+            editor = sharedPref.edit();
+            editor.putString("", CalculatorActivity.class.getSimpleName());
+            editor.apply();
+        }
+    }
+
 }
 
